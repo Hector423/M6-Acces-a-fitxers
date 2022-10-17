@@ -3,6 +3,10 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
 
+
+/*
+ * No m'ha acabat de sortir aquest exercici, això és el que he pogut fer
+ */
 public class TercerExercici {
 
 	public static void main(String[] args) throws IOException {
@@ -21,8 +25,7 @@ public class TercerExercici {
 		char cognomsChar[] = new char[10], aux;
 		
 		Scanner sc = new Scanner(System.in);
-		int sortir = 0;
-		int opcio;
+		int opcio = 0;
 		
 		StringBuffer buffer = null;
 		int n = cognoms.length;
@@ -34,7 +37,7 @@ public class TercerExercici {
 			accesArxiu.writeChars(buffer.toString());
 			accesArxiu.writeDouble(salari[i]);
 		}
-		while (sortir != 3) {
+		while (opcio != 3) {
 				System.out.println("1. Veure treballadors");
 				System.out.println("2. Canviar salari treballador");
 				System.out.println("3. Sortir");
@@ -45,7 +48,10 @@ public class TercerExercici {
 				switch (opcio) {
 				case 1:
 					RandomAccessFile accesArxiuLectura = new RandomAccessFile(arxiu, "r");
+					posicio = 0;
+					Long longitud = accesArxiuLectura.length();
 					for(;;) {
+						
 						accesArxiuLectura.seek(posicio);
 						llegirIdentificador = accesArxiuLectura.readInt(); 
 						for (int i=0; i<cognomsChar.length; i++) {
@@ -56,7 +62,8 @@ public class TercerExercici {
 						llegirSalari = accesArxiuLectura.readDouble();
 						System.out.println("ID: " + llegirIdentificador + "Cognom: " + cognoms2 + "Salari: " + llegirSalari);
 						posicio = posicio+32;
-						if (accesArxiuLectura.getFilePointer()==accesArxiuLectura.length()) {
+						
+						if (posicio>accesArxiuLectura.length()) {
 							break;
 						}
 					}
@@ -77,11 +84,9 @@ public class TercerExercici {
 						accesArxiu.seek(posicio+4+20);
 						obtenirSalari = accesArxiu.readInt();
 						obtenirSalari = obtenirSalari + canviarSalari;
-						accesArxiu.writeDouble(canviarSalari);
+						accesArxiu.writeDouble(obtenirSalari);
 						System.out.println("S'ha canviat el salari del treballador");
 					}
-					
-					
 					break;
 				}
 		}
